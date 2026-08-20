@@ -7,23 +7,26 @@ if (!JWT_SECRET) {
   throw new Error("JWT_SECRET is not defined");
 }
 
-const JWT_SECRET_STRING = JWT_SECRET;
-
 export interface AuthUser {
   userId: string;
   email: string;
-  role: "user" | "admin";
+  role: "CUSTOMER" | "ADMIN";
 }
 
 export function createToken(user: AuthUser) {
-  return jwt.sign(user, JWT_SECRET_STRING, {
+  return jwt.sign(user, JWT_SECRET as string, {
     expiresIn: "7d",
   });
 }
 
-export function verifyToken(token: string): AuthUser | null {
+export function verifyToken(
+  token: string
+): AuthUser | null {
   try {
-    return jwt.verify(token, JWT_SECRET_STRING) as AuthUser;
+    return jwt.verify(
+      token,
+      JWT_SECRET as string
+    ) as unknown as AuthUser;
   } catch {
     return null;
   }
@@ -46,22 +49,22 @@ export async function requireAdmin() {
 
   if (!user) {
     return {
-      authorized: false,
+      authorized: false as const,
       status: 401,
       message: "Please login first",
     };
   }
 
-  if (user.role !== "admin") {
+  if (user.role !== "ADMIN") {
     return {
-      authorized: false,
+      authorized: false as const,
       status: 403,
       message: "Admin access required",
     };
   }
 
   return {
-    authorized: true,
+    authorized: true as const,
     user,
   };
 }

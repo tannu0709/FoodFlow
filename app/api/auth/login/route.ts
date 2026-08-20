@@ -49,12 +49,12 @@ export async function POST(request: Request) {
       );
     }
 
-    const normalizedRole = user.role === "ADMIN" ? "admin" : "user";
+    const normalizedRole = user.role === "ADMIN" ? "ADMIN" : "CUSTOMER";
 
     const token = createToken({
       userId: user._id.toString(),
       email: user.email,
-      role: normalizedRole,
+      role: user.role,
     });
 
     const response = NextResponse.json({

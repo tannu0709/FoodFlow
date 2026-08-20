@@ -98,7 +98,7 @@ export default function Navbar() {
               Menu
             </Link>
 
-            {user && (
+            {user && user.role !== "ADMIN" && (
               <Link
                 href="/orders"
                 className={
@@ -111,7 +111,7 @@ export default function Navbar() {
               </Link>
             )}
 
-            {user?.role === "admin" && (
+            {user?.role === "ADMIN" && (
               <Link
                 href="/admin/orders"
                 className={

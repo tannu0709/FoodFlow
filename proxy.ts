@@ -25,7 +25,7 @@ export function proxy(request: NextRequest) {
       ) as TokenPayload;
 
       // User is not an admin
-      if (decoded.role !== "admin") {
+      if (decoded.role !== "ADMIN") {
         return NextResponse.redirect(new URL("/menu", request.url));
       }
 
